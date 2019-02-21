@@ -11,10 +11,10 @@ public:
 
 	bool fileWrite(Vector3 values, std::string fileName = "RunnerPositionData.txt");
 
-	RunnerWrite* getInstance();
+	static RunnerWrite* getInstance();
 
 private:
 	RunnerWrite();
-	RunnerWrite* instance;
+	static RunnerWrite* instance;
 };
 
