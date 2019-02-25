@@ -10,6 +10,7 @@ public:
 	~RunnerWrite();
 
 	bool fileWrite(Vector3 values, std::string fileName = "RunnerPositionData.txt");
+	bool fileWrite(std::string msg, std::string fileName = "RunnerPositionData.txt");
 
 	static RunnerWrite* getInstance();
 

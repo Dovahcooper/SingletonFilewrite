@@ -21,6 +21,17 @@ bool RunnerWrite::fileWrite(Vector3 values, std::string fileName)
 	return true;
 }
 
+bool RunnerWrite::fileWrite(std::string msg, std::string fileName)
+{
+	std::ofstream outFile;
+
+	outFile.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
+
+	outFile << msg << std::endl;
+	outFile.close();
+	return true;
+}
+
 RunnerWrite * RunnerWrite::getInstance()
 {
 	if (instance == nullptr)
