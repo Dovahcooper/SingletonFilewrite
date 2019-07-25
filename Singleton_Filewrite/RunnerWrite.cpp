@@ -1,41 +1,59 @@
 #include "RunnerWrite.h"
 #include "Vector.h"
 
-RunnerWrite::RunnerWrite()
+RunnerWrite* RunnerWrite::instance;
+
+std::ofstream& operator<<(std::ofstream &fs, const Vector3& val)
 {
+	fs << "X: " << val.x << ", Y: " << val.y << ", Z: " << val.z << std::endl;
+	return fs;
+}
+
+RunnerWrite::RunnerWrite(std::string filePath)
+{
+	fileName = filePath;
 }
 
 RunnerWrite::~RunnerWrite()
 {
 	if (instance != nullptr)
-		delete instance;
+		instance = nullptr;
 }
 
-bool RunnerWrite::fileWrite(Vector3 values, std::string fileName)
+bool RunnerWrite::fileWrite(Vector3 values)
 {
-	std::ofstream outFile;
-	outFile.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
+	fileWriter.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
 
-	outFile << &values;
-	outFile.close();
-	return true;
+	if (fileWriter.is_open()){
+		fileWriter << values;
+		fileWriter.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
-bool RunnerWrite::fileWrite(std::string msg, std::string fileName)
+bool RunnerWrite::fileWrite(std::string msg)
 {
-	std::ofstream outFile;
+	fileWriter.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
 
-	outFile.open(fileName, std::ios::out | std::ios::app | std::ios::binary);
-
-	outFile << msg << std::endl;
-	outFile.close();
-	return true;
+	if (fileWriter.is_open()) {
+		fileWriter << msg << std::endl;
+		fileWriter.close();
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
 
-RunnerWrite * RunnerWrite::getInstance()
+RunnerWrite * RunnerWrite::getInstance(std::string filePath)
 {
 	if (instance == nullptr)
-		instance = new RunnerWrite();
+		instance = new RunnerWrite(filePath);
 
 	return instance;
 }
